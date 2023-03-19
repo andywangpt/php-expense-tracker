@@ -10,31 +10,31 @@
 
 <body>
    <?php
-   class Expense_Item
-   {
-      public $name;
-      public $amount;
-      public $date;
-      public $payment_type;
-
-      function __construct($name, $amount, $date, $payment_type)
-      {
-         $this->name = $name;
-         $this->amount = $amount;
-         $this->date = $date;
-         $this->payment_type = $payment_type;
-      }
-   }
-
+   $expenses = array();
    ?>
+
    <h1>PHP Expense Tracker</h1>
 
    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-      Expense: <input type="text" name=<?php $_POST["set_name($name)"] ?>><br>
+      Expense: <input type="text" name="name"><br>
       Amount: <input type="number" name="amount"><br>
       Date: <input type="date" name="date"><br>
       <input type="submit">
    </form>
+
+   <?php
+   if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      $expense = array();
+      $expense['name'] = $_POST['name'];
+      $expense['amount'] = $_POST['amount'];
+      $expense['date'] = $_POST['date'];
+
+      array_push($expenses, $expense);
+   }
+   ?>
+
+   <br>
+   <br>
 
    <table>
       <tr>
@@ -50,10 +50,6 @@
       </tr>
    </table>
 
-   <?php
-   echo "User paid " . $_POST["amount"] . " dollars for a " . $_POST["name"] . " on ";
-   ?>
-   
 </body>
 
 </html>
