@@ -9,13 +9,10 @@
 </head>
 
 <body>
-   <?php
-   $expenses = array();
-   ?>
 
-   <h1>PHP Expense Tracker</h1>
+   <h1 style="text-align: center;">PHP Expense Tracker</h1>
 
-   <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+   <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" style="text-align:center;">
       Expense: <input type="text" name="name"><br>
       Amount: <input type="number" name="amount"><br>
       Date: <input type="date" name="date"><br>
@@ -23,32 +20,61 @@
    </form>
 
    <?php
-   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      $expense = array();
-      $expense['name'] = $_POST['name'];
-      $expense['amount'] = $_POST['amount'];
-      $expense['date'] = $_POST['date'];
 
-      array_push($expenses, $expense);
+   class Expense_Item
+   {
+      public $name;
+      public $amount;
+      public $date;
+
+      function __construct($aName, $aAmount, $aDate)
+      {
+         $this->name = $aName;
+         $this->amount = $aAmount;
+         $this->date = $aDate;
+      }
    }
+
+   $expenses = array();
+
+   if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      $name = $_POST['name'];
+      $amount = $_POST['amount'];
+      $date = $_POST['date'];
+
+      $expense = new Expense_Item($name, $amount, $date);
+   }
+   array_push($expenses, $expense);
+
+
    ?>
 
    <br>
    <br>
 
-   <table>
-      <tr>
-         <th>Expense Name</th>
-         <th>Amount</th>
-         <th>Date</th>
-         <th>Payment Type</th>
-      </tr>
-      <tr>
-         <td><?php echo $_POST["name"] ?></td>
-         <td><?php echo $_POST["amount"] ?></td>
-         <td><?php echo $_POST["date"] ?></td>
-      </tr>
-   </table>
+   <div style="width:50%; margin:auto; justify-content: center;">
+      <table>
+         <tr>
+            <th>Expense Name</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Payment Type</th>
+         </tr>
+
+         <?php
+         foreach ($expenses as $expense) {
+            echo "<tr>";
+            echo "<td>" . $expense->name . "</td>";
+            echo "<td>" . $expense->amount . "</td>";
+            echo "<td>" . $expense->date . "</td>";
+            echo "<td>" . "Credit Card" . "</td>";
+            echo "</tr>";
+         }
+
+         ?>
+      </table>
+   </div>
+
 
 </body>
 
